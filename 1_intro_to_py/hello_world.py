@@ -1,3 +1,5 @@
+import random
+
 print("Hello World");
 
 pais = "Itália";
@@ -18,3 +20,7 @@ print(p);
 print("R$ {:7.2f}".format(1.50));
 
 print("R$ {:07d}".format(4));
+a = random.random() * 100;
+print(a);
+print(int(a));
+print(round(a));
