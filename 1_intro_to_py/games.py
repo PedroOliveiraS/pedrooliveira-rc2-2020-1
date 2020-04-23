@@ -1,4 +1,4 @@
-import hangmman_game
+import hangman_game
 import guess_game
 
 def choose_game():
@@ -6,11 +6,11 @@ def choose_game():
     print("*******Escolha o seu jogo!*******")
     print("*********************************")
 
-    game = int(input("(1) Forca (2) Adivinhação"))
+    game = int(input("(1) Forca (2) Adivinhação\n"))
 
     if game == 1:
         print("Jogando Forca")
-        hangmman_game.play()
+        hangman_game.play()
     else:
         print("Jogando Adivinhação")
         guess_game.play()
