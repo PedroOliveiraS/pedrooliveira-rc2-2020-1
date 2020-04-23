@@ -1,6 +1,7 @@
 import random;
 
 def play():
+
     print("\n********************************");
     print("Bem vindo ao jogo da adivinhação");
     print("********************************\n");
