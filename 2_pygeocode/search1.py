@@ -4,4 +4,6 @@ if __name__ == '__main__':
     address = 'Belarmino Vilela Junqueira, Ituiutaba, MG'
     user_agent = 'Search1'
     location = Nominatim(user_agent=user_agent).geocode(address)
-    print(location.latitude, location.longitude)
+    #print repr(location)
+    print(location.address)
+    print("(Latitude, Longitude): " + str(location.latitude) +", " + str(location.longitude))
