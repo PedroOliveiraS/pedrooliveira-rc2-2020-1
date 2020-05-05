@@ -7,9 +7,16 @@ def geocode(address):
     headers = {'User-Agent': user_agent}
     response = requests.get(base, params=parameters, headers=headers)
     reply = response.json()
-    print('Resultado 1:')
-    print(reply[0]['lat'], reply[0]['lon'])
-    print(reply[1]['lat'], reply[1]['lon'])
+    print(f'Endereço Buscado: {address}')
+    print(reply[0]['display_name'].split(",")[-2])
+
+
+
+    for i in range(len(reply)):
+        print(f"Resultado {i}:")
+        print("     CEP: {}".format(reply[i]['display_name'].split(",")[-2]))
+        print("     (Latitude, Longitude): ({})".format(reply[i]['lat'], reply[i]['lon']))
+
 
 if __name__ == '__main__':
     geocode('Belarmino Vilela Junqueira, Ituiutaba, MG')
