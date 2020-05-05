@@ -8,9 +8,6 @@ def geocode(address):
     response = requests.get(base, params=parameters, headers=headers)
     reply = response.json()
     print(f'Endereço Buscado: {address}')
-    print(reply[0]['display_name'].split(",")[-2])
-
-
 
     for i in range(len(reply)):
         print(f"Resultado {i}:")
