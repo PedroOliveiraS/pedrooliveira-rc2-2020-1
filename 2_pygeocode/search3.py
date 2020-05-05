@@ -13,7 +13,12 @@ def geocode(address):
     connection.request('GET', path, None, headers)
     rawreply = connection.getresponse().read()
     reply = json.loads(rawreply.decode('utf-8'))
-    print(reply[0]['lat'], reply[0]['lon'])
+    print(f'Endereço Buscado: {address}')
+
+    for i in range(len(reply)):
+        print(f"Resultado {i}:")
+        print("     CEP: {}".format(reply[i]['display_name'].split(",")[-2]))
+        print("     (Latitude, Longitude): ({})".format(reply[i]['lat'], reply[i]['lon']))
 
 
 if __name__ == '__main__':
