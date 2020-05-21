@@ -4,22 +4,48 @@ BUFSIZE = 65535
 
 
 def server(interface):
-    players = []
+    playersAddres = []
+    playersLogins = []
     numP = 0
-    ports = [62616, 53340, 57243]
-    socks = [socket.socket(socket.AF_INET, socket.SOCK_DGRAM), socket.socket(socket.AF_INET, socket.SOCK_DGRAM),
-             socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]
+    port = 7100
 
-    socks[0] = socks[0].bind((interface, ports[0]))
-    socks[1] = socks[1].bind((interface, ports[1]))
-    socks[2] = socks[2].bind((interface, ports[2]))
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind((interface, port))
 
-    print('Esperando por jogadores em: {}'.format(socks[0].getsockname()))
+    while True:
+        if numP == 3:
+            for i in range(len(playersAddres)):
+                send = '0'
+                print('Enviando: ', send)
+                newMessage = bytes(send.encode('ascii'))
+                sock.sendto(newMessage, playersAddres[i - 1])
+            break;
+        else:
+            print('\n\n\n')
+            print('Aguardando conexões...')
+            data, address = sock.recvfrom(BUFSIZE)
 
-    while numP != 0:
-        data, address = sock.recvfrom(BUFSIZE)
-        text = data.decode('ascii')
-        print('The client at {} says: {!r}'.format(address, text))
+            if(address):
+                numP = numP + 1
+                playersAddres.append(address)
+                print(str(data.decode('ascii')) + ' conectado com sucesso.')
+                playersLogins.append(str(data.decode('ascii')))
+
+            print('Jogadores na sala:')
+            for i in range(len(playersAddres)):
+                for j in range(len(playersAddres)):
+                    send = playersLogins[j - 1] + ' esta conectado.'
+                    print('Enviando a: ',playersAddres[i-1], 'a mensagem: ', send)
+                    newMessage = bytes(send.encode('ascii'))
+                    sock.sendto(newMessage, playersAddres[i - 1])
+
+            if numP != 3:
+                for i in range(len(playersAddres)):
+                    send = 'Aguardando ' + str((3 - numP)) + ' jogadores.'
+                    print('Enviando: ', send)
+                    newMessage = bytes(send.encode('ascii'))
+                    sock.sendto(newMessage, playersAddres[i - 1])
 
 
 if __name__ == '__main__':
