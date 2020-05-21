@@ -19,7 +19,7 @@ def server(interface):
                 send = '0'
                 newMessage = bytes(send.encode('ascii'))
                 sock.sendto(newMessage, playersAddres[i - 1])
-                print('Todos os jogadores foram conectados\n\n')
+                print('Todos os jogadores foram conectados \n\n')
             break;
         else:
             print('\n\n\n')
