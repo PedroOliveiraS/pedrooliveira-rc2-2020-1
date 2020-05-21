@@ -17,9 +17,9 @@ def server(interface):
         if numP == 3:
             for i in range(len(playersAddres)):
                 send = '0'
-                print('Enviando: ', send)
                 newMessage = bytes(send.encode('ascii'))
                 sock.sendto(newMessage, playersAddres[i - 1])
+                print('Todos os jogadores foram conectados\n\n')
             break;
         else:
             print('\n\n\n')
