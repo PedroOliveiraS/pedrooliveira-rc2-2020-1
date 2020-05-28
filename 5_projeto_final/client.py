@@ -15,7 +15,8 @@ def client(network, port):
 
         if data:
             newData = data.decode('ascii')
-            if newData == 0:
+            if 'Fim de jogo' in newData:
+                print(newData)
                 break
             elif 'Defina o nivel' in newData:
                 print(newData)

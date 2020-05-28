@@ -19,9 +19,6 @@ def server(interface):
     while True:
         if numP == 3:
             for i in range(len(playersAddres)):
-                send = '0'
-                newMessage = bytes(send.encode('ascii'))
-                sock.sendto(newMessage, playersAddres[i - 1])
                 print('Todos os jogadores foram conectados \n\n')
             break;
         else:
@@ -89,18 +86,21 @@ def server(interface):
     random.shuffle(order)
     random.shuffle(order)
 
-    cont = 0
-    cont1 = 0
-    while playersTries[0] != 0 and playersTries[1] != 0 and playersTries[2] != 0:
+    cont = -1
+    cont1 = -1
+    while playersTries[0] != 0 or playersTries[1] != 0 or playersTries[2] != 0:
+        cont1 += 1
+        cont += 1
         if cont1 == 3:
-            con1 = 0
+            cont1 = 0
 
-        msg = 'Rodada ' + str((cont+1))
+        print('Rodada : ' + (str((cont+1))) + 'num = ' + str(cont1))
+        msg = 'Rodada ' + str((cont+1) + '\n')
         msg = bytes(msg.encode('ascii'))
         for i in range(len(playersAddres)):
             sock.sendto(msg, playersAddres[i-1])
 
-        msg = 'Jogador ' + playersLogins[cont1] + ' faca seu chute \n Voce tem mais ' + str(playersTries[order[cont1]]) +' tentativas'
+        msg = '\nJogador ' + playersLogins[order[cont1]] + ' faca seu chute \n Voce tem mais ' + str(playersTries[order[cont1]]) +' tentativas'
         msg += '\nFaca sua escolha jogador [' + playersLogins[order[cont1]] + ']. Digite um numero entre 1 e 100'
         msg = bytes(msg.encode('ascii'))
         sock.sendto(msg, playersAddres[order[cont1]])
@@ -125,7 +125,7 @@ def server(interface):
             continue
 
         if correct:
-            msg = 'O player [' + playersLogins[order[cont1]] + '] acertou o numero.'
+            msg = 'O player [' + playersLogins[order[cont1]] + '] acertou o numero.\n'
             msg = bytes(msg.encode('ascii'))
             for i in range(len(playersAddres)):
                 sock.sendto(msg, playersAddres[i-1])
@@ -133,23 +133,19 @@ def server(interface):
             break
         else:
             if bigger:
-                msg = 'O player [' + playersLogins[order[cont1]] + '] chutou o numero ' + str(guess)+ '. Errou. O chute foi maior que o numero secreto.'
+                msg = 'O player [' + playersLogins[order[cont1]] + '] chutou o numero ' + str(guess)+ '. Errou. O chute foi maior que o numero secreto.\n'
             elif smaller:
-                msg = 'O player [' + playersLogins[order[cont1]] + '] chutou o numero ' + str(guess) + '. Errou. O chute foi menor que o numero secreto.'
+                msg = 'O player [' + playersLogins[order[cont1]] + '] chutou o numero ' + str(guess) + '. Errou. O chute foi menor que o numero secreto.\n'
             msg = bytes(msg.encode('ascii'))
+            playersPoints[order[cont1]] -= abs(secret_number - guess);
             for i in range(len(playersAddres)):
                 sock.sendto(msg, playersAddres[i-1])
 
-        cont1 += 1
-        cont += 1
 
-    msg = 'Fim de jogo. Pontuacoes finais: \n' + playersLogins[0] + ' ficou com [' + str(playersPoints[0]) + ']\n ' +\
+
+    msg = 'Fim de jogo. Pontuacoes finais: \n' + playersLogins[0] + ' ficou com [' + str(playersPoints[0]) + ']\n'+\
           playersLogins[1] + ' ficou com [' + str(playersPoints[1]) + ']\n' + playersLogins[2] + ' ficou com [' + \
           str(playersPoints[2]) + ']'
-    msg = bytes(msg.encode('ascii'))
-    for i in range(len(playersAddres)):
-        sock.sendto(msg, playersAddres[i - 1])
-    msg = '0'
     msg = bytes(msg.encode('ascii'))
     for i in range(len(playersAddres)):
         sock.sendto(msg, playersAddres[i - 1])
