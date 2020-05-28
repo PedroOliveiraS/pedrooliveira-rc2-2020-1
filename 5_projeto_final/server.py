@@ -95,7 +95,7 @@ def server(interface):
             cont1 = 0
 
         print('Rodada : ' + (str((cont+1))) + 'num = ' + str(cont1))
-        msg = 'Rodada ' + str((cont+1) + '\n')
+        msg = 'Rodada ' + str((cont+1)) + '\n'
         msg = bytes(msg.encode('ascii'))
         for i in range(len(playersAddres)):
             sock.sendto(msg, playersAddres[i-1])
@@ -129,8 +129,7 @@ def server(interface):
             msg = bytes(msg.encode('ascii'))
             for i in range(len(playersAddres)):
                 sock.sendto(msg, playersAddres[i-1])
-            playersPoints[order[cont1]] += abs(level*(cont-playersTries[order[cont1]]))
-            break
+            playersPoints[order[cont1]] += abs(level*(cont-playersTries[order[cont1]]))break
         else:
             if bigger:
                 msg = 'O player [' + playersLogins[order[cont1]] + '] chutou o numero ' + str(guess)+ '. Errou. O chute foi maior que o numero secreto.\n'
